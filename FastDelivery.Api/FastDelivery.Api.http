@@ -1,0 +1,6 @@
+@FastDelivery.Api_HostAddress = http://localhost:5209
+
+GET {{FastDelivery.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
