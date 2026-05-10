@@ -45,6 +45,7 @@ builder.Services.AddScoped<IMongoRepository, MongoRepository>();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
 builder.Services.AddSingleton<MongoService>();
+// Para pruebas se habilita coors allowAll
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -56,8 +57,13 @@ builder.Services.AddCors(options =>
         });
 });
 var app = builder.Build();
-// Para pruebas se habilita coors allowAll
+//Seeder
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
+    DbSeeder.Seed(db);
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
