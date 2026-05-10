@@ -6,7 +6,7 @@
 
         public int ClientId { get; set; }
 
-        public Guid DriverId { get; set; }
+        public string DriverEmail { get; set; }
 
         public string Status { get; set; } = "Pendiente";
 

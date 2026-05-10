@@ -26,16 +26,17 @@ namespace FastDelivery.Api.Services
             if (client == null)
                 throw new Exception("El Cliente No Existe");
 
-            var driver = dto.DriverId != null
-                ? await _context.Users.FindAsync(dto.DriverId)
-                : null;
-
+            var driver = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.DriverEmail);
+            if (driver == null)
+            {
+                throw new Exception("El Repartidor No Existe");
+            }
             var order = new Order
             {
                 OrderNumber = dto.OrderNumber,
                 Status = dto.Status,
                 ClientId = dto.ClientId,
-                DriverId = dto.DriverId,
+                DriverId = driver.Id,
                 CreatedAt = DateTime.UtcNow
             };
 

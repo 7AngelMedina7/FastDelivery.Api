@@ -8,7 +8,7 @@
 
         public Client Client { get; set; }
 
-        public Guid DriverId { get; set; }
+        public Guid? DriverId { get; set; }
 
         public User Driver { get; set; }
 

@@ -13,7 +13,7 @@ namespace FastDelivery.Api.DTOs.Order
 
         public ClientDto Client { get; set; }
 
-        public UserDto Driver { get; set; }
+        public UserDto? Driver { get; set; }
 
         public DateTime CreatedAt { get; set; }
 
