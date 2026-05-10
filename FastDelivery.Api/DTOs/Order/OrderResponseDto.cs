@@ -1,4 +1,7 @@
-﻿namespace FastDelivery.Api.DTOs.Order
+﻿using FastDelivery.Api.DTOs.Client;
+using FastDelivery.Api.DTOs.User;
+
+namespace FastDelivery.Api.DTOs.Order
 {
     public class OrderResponseDto
     {
@@ -8,11 +11,12 @@
 
         public string Status { get; set; }
 
-        public string ClientName { get; set; }
+        public ClientDto Client { get; set; }
 
-        public string? DriverName { get; set; }
+        public UserDto Driver { get; set; }
 
         public DateTime CreatedAt { get; set; }
+
         public string Message { get; set; }
 
     }
