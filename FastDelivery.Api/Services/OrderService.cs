@@ -22,33 +22,45 @@ namespace FastDelivery.Api.Services
         //Crear Orden
         public async Task<OrderResponseDto> CreateOrderAsync(CreateOrderDto dto)
         {
+            var client = await _context.Clients.FindAsync(dto.ClientId);
+            if (client == null)
+                throw new Exception("El Cliente No Existe");
+
+            var driver = dto.DriverId != null
+                ? await _context.Users.FindAsync(dto.DriverId)
+                : null;
+
             var order = new Order
             {
                 OrderNumber = dto.OrderNumber,
                 Status = dto.Status,
                 ClientId = dto.ClientId,
-                DriverId = dto.DriverId
+                DriverId = dto.DriverId,
+                CreatedAt = DateTime.UtcNow
             };
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
-
-            var client = await _context.Clients.FindAsync(dto.ClientId);
-            if (client == null)
-            {
-                throw new Exception("El Cliente No Existe");
-            }
-            var driver = dto.DriverId != null
-                ? await _context.Users.FindAsync(dto.DriverId)
-                : null;
 
             return new OrderResponseDto
             {
                 Id = order.Id,
                 OrderNumber = order.OrderNumber,
                 Status = order.Status,
-                ClientName = client.Name,
-                DriverName = driver?.Name,
+                CreatedAt = order.CreatedAt,
+                Client = new ClientDto
+                {
+                    Id = client.Id,
+                    Name = client.Name,
+                    Address = order.Client.Address,
+                    Phone = order.Client.Phone
+                },
+                Driver = driver != null ? new UserDto
+                {
+                    Id = driver.Id,
+                    Name = driver.Name,
+                    Email = driver.Email
+                } : null,
                 Message = "Order Creada Correctamente"
             };
         }
@@ -74,6 +86,7 @@ namespace FastDelivery.Api.Services
                  {
                      Id = o.Driver.Id,
                      Name = o.Driver.Name,
+                     Email =  o.Driver.Email
                  }
              })
              .ToListAsync();
@@ -101,6 +114,7 @@ namespace FastDelivery.Api.Services
                     {
                         Id = o.Driver.Id,
                         Name = o.Driver.Name,
+                        Email = o.Driver.Email
                     }
                 })
                 .FirstOrDefaultAsync();
@@ -140,14 +154,17 @@ namespace FastDelivery.Api.Services
                 {
                     Id = order.Driver.Id,
                     Name = order.Driver.Name,
+                    Email = order.Driver.Email
                 }
             };
         }
         //Cambiar status de una orden
         public async Task<OrderResponseDto?> UpdateStatus( UpdateOrderStatusDto dto, int id)
         {
-            var order = await _context.Orders.FindAsync(id);
-
+            var order = await _context.Orders
+                   .Include(o => o.Client)
+                   .Include(o => o.Driver)
+                   .FirstOrDefaultAsync(o => o.Id == id);
             if (order == null)
                 return null;
             string previousStatus = order.Status;
@@ -172,7 +189,20 @@ namespace FastDelivery.Api.Services
                 Id = order.Id,
                 OrderNumber = order.OrderNumber,
                 Status = order.Status,
-                Message = "Estatus de la Orden Actualizada"
+                Message = "Estatus de la Orden Actualizada",
+                 Client = new ClientDto
+                 {
+                     Id = order.Client.Id,
+                     Name = order.Client.Name,
+                     Address = order.Client.Address,
+                     Phone = order.Client.Phone
+                 },
+                Driver = new UserDto
+                {
+                    Id = order.Driver.Id,
+                    Name = order.Driver.Name,
+                    Email = order.Driver.Email
+                } 
             };
         }
         public async Task<OrderHistoryResponseDto?> GetOrderHistory(int id)
