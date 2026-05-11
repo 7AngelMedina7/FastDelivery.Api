@@ -1,12 +1,9 @@
 ﻿using FastDelivery.Api.Data;
-using FastDelivery.Api.DTOs.Auth;
 using FastDelivery.Api.DTOs.Client;
 using FastDelivery.Api.DTOs.Order;
 using FastDelivery.Api.Models;
 using FastDelivery.Api.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using static NuGet.Packaging.PackagingConstants;
 
 namespace FastDelivery.Api.Services
 {

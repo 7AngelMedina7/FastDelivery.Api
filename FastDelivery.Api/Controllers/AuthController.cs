@@ -17,12 +17,13 @@ namespace FastDelivery.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            try {
+            try
+            {
                 var response = await _authService.RegisterAsync(dto);
 
                 return Ok(response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(new
                 {

@@ -78,7 +78,7 @@ namespace FastDelivery.Api.Controllers
         }
         [Authorize]
         [HttpPatch("{id}/status")]
-        public async Task<IActionResult> UpdateStatus( UpdateOrderStatusDto dto, int id)
+        public async Task<IActionResult> UpdateStatus(UpdateOrderStatusDto dto, int id)
         {
             try
             {
@@ -119,6 +119,6 @@ namespace FastDelivery.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
     }
 }

@@ -3,7 +3,6 @@ using FastDelivery.Api.DTOs.Client;
 using FastDelivery.Api.DTOs.Order;
 using FastDelivery.Api.DTOs.User;
 using FastDelivery.Api.Models;
-using FastDelivery.Api.Repositories;
 using FastDelivery.Api.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -87,7 +86,7 @@ namespace FastDelivery.Api.Services
                  {
                      Id = o.Driver.Id,
                      Name = o.Driver.Name,
-                     Email =  o.Driver.Email
+                     Email = o.Driver.Email
                  }
              })
              .ToListAsync();
@@ -121,7 +120,7 @@ namespace FastDelivery.Api.Services
                 .FirstOrDefaultAsync();
         }
         //Editar Orden
-        public async Task<OrderDetailsDto?> UpdateOrder( UpdateOrderDto dto, int id)
+        public async Task<OrderDetailsDto?> UpdateOrder(UpdateOrderDto dto, int id)
         {
             var order = await _context.Orders
                 .Include(o => o.Client)
@@ -129,7 +128,7 @@ namespace FastDelivery.Api.Services
                 .FirstOrDefaultAsync(o => o.Id == id);
             var driver = await _context.Users.FindAsync(dto.DriverId);
 
-            if ( driver == null)
+            if (driver == null)
             {
                 throw new Exception("El Repartidor No Existe");
             }
@@ -165,7 +164,7 @@ namespace FastDelivery.Api.Services
             };
         }
         //Cambiar status de una orden
-        public async Task<OrderResponseDto?> UpdateStatus( UpdateOrderStatusDto dto, int id)
+        public async Task<OrderResponseDto?> UpdateStatus(UpdateOrderStatusDto dto, int id)
         {
             var order = await _context.Orders
                    .Include(o => o.Client)
@@ -198,19 +197,19 @@ namespace FastDelivery.Api.Services
                 OrderNumber = order.OrderNumber,
                 Status = order.Status,
                 Message = "Estatus de la Orden Actualizada",
-                 Client = new ClientDto
-                 {
-                     Id = order.Client.Id,
-                     Name = order.Client.Name,
-                     Address = order.Client.Address,
-                     Phone = order.Client.Phone
-                 },
+                Client = new ClientDto
+                {
+                    Id = order.Client.Id,
+                    Name = order.Client.Name,
+                    Address = order.Client.Address,
+                    Phone = order.Client.Phone
+                },
                 Driver = new UserDto
                 {
                     Id = order.Driver.Id,
                     Name = order.Driver.Name,
                     Email = order.Driver.Email
-                } 
+                }
             };
         }
         public async Task<OrderHistoryResponseDto?> GetOrderHistory(int id)

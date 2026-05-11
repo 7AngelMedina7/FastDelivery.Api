@@ -2,25 +2,22 @@
 using FastDelivery.Api.Data;
 using FastDelivery.Api.DTOs.Auth;
 using FastDelivery.Api.DTOs.User;
-using FastDelivery.Api.Interfaces;
 using FastDelivery.Api.Models;
 using FastDelivery.Api.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using NuGet.Common;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
 namespace FastDelivery.Api.Services
 {
-    public class AuthService: IAuthService
+    public class AuthService : IAuthService
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _config;
 
-        public AuthService (AppDbContext context, IConfiguration config)
+        public AuthService(AppDbContext context, IConfiguration config)
         {
             _context = context;
             _config = config;
@@ -44,11 +41,10 @@ namespace FastDelivery.Api.Services
             };
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            
+
             return new AuthResponseDto
             {
                 Name = user.Name,
-                Email = user.Email,
                 Message = "Usuario creado correctamente"
             };
         }

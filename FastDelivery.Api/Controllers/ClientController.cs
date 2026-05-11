@@ -45,7 +45,7 @@ namespace FastDelivery.Api.Controllers
         }
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateClient(UpdateClientDto dto,int id)
+        public async Task<IActionResult> UpdateClient(UpdateClientDto dto, int id)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace FastDelivery.Api.Controllers
                 var response = await _clientService.DeleteClientAsync(id);
                 return Ok(response);
             }
-             catch (Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
