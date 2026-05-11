@@ -22,16 +22,16 @@ namespace FastDelivery.Api.Data
                 new User { Id = adminId, Name = "Admin", Email = "admin@example.com" , Role = "Driver"},
                 new User { Id = user1Id, Name = "User1", Email = "user1@example.com" , Role = "Driver"}
             };
-            users[0].Password = passwordHasher.HashPassword(users[0], "123456");
-            users[1].Password = passwordHasher.HashPassword(users[1], "123456");
+            users[0].Password = BCrypt.Net.BCrypt.HashPassword("123456");
+            users[1].Password = BCrypt.Net.BCrypt.HashPassword("123456");
             db.Users.AddRange(users);
             db.SaveChanges();
 
             var clients = new List<Client>
             { 
-                new Client{ Id = 1, Name = "Cliente 1", Address = "Edificio Ocampo, Constitución, Centro Monterrey, N.L.", Phone = "8111111111"},
-                new Client{ Id = 2,Name = "Cliente 2", Address = "Av. Universidad 1000, San Nicolás, N.L.", Phone = "8112223333"},
-                new Client{ Id = 3,Name = "Cliente 3", Address = "Col. Centro, Monterrey, N.L.", Phone = "8113334444"}
+                new Client{ Name = "Cliente 1", Address = "Edificio Ocampo, Constitución, Centro Monterrey, N.L.", Phone = "8111111111"},
+                new Client{ Name = "Cliente 2", Address = "Av. Universidad 1000, San Nicolás, N.L.", Phone = "8112223333"},
+                new Client{ Name = "Cliente 3", Address = "Col. Centro, Monterrey, N.L.", Phone = "8113334444"}
             };
             db.Clients.AddRange(clients);
             db.SaveChanges();
