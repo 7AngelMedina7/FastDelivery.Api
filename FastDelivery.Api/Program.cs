@@ -56,6 +56,11 @@ builder.Services.AddCors(options =>
                   .AllowAnyMethod();
         });
 });
+//Cambio de ruta para usar Expo Local
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(5000);
+});
 var app = builder.Build();
 //Seeder
 using (var scope = app.Services.CreateScope())
