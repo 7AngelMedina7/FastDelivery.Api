@@ -36,7 +36,7 @@ namespace FastDelivery.Api.Services
             {
                 Name = dto.Name,
                 Email = dto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password),
+                Password = BCrypt.Net.BCrypt.HashPassword(dto.Password, 10),
                 Role = dto.Role,
             };
             _context.Users.Add(user);
