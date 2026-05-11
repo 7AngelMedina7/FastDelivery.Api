@@ -11,9 +11,9 @@ namespace FastDelivery.Api.Services
     public class OrderService : IOrdersService
     {
         private readonly AppDbContext _context;
-        private readonly IMongoRepository _mongoRepository;
+        private readonly IMongoService _mongoRepository;
 
-        public OrderService(AppDbContext context, IMongoRepository mongoRepository)
+        public OrderService(AppDbContext context, IMongoService mongoRepository)
         {
             _context = context;
             _mongoRepository = mongoRepository;

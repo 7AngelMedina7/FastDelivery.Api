@@ -1,7 +1,6 @@
 
 using FastDelivery.Api.Config;
 using FastDelivery.Api.Data;
-using FastDelivery.Api.Repositories;
 using FastDelivery.Api.Services;
 using FastDelivery.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -41,7 +40,7 @@ builder.Services.AddAuthentication(options => {
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<IOrdersService, OrderService>();
-builder.Services.AddScoped<IMongoRepository, MongoRepository>();
+builder.Services.AddScoped<IMongoService, MongoService>();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDbSettings"));
 builder.Services.AddSingleton<MongoService>();

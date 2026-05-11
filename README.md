@@ -121,7 +121,6 @@ FastDelivery.Api/
 ├── Controllers/          # Endpoints
 ├── Services/             # Lógica
 │   └── Interfaces/       # Contratos de servicios
-├── Repositories/         # Acceso a datos MongoDB
 ├── Data/                 # DbContext y Seed de datos
 ├── Models/               # Entidades (User, Order, Client, OrderLog)
 ├── DTOs/

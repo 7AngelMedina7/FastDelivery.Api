@@ -1,11 +1,12 @@
 ﻿using FastDelivery.Api.Config;
 using FastDelivery.Api.Models;
+using FastDelivery.Api.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
 namespace FastDelivery.Api.Services
 {
-    public class MongoService
+    public class MongoService : IMongoService
     {
         private readonly IMongoCollection<OrderLog> _orderLogs;
 

@@ -2,7 +2,7 @@
 
 namespace FastDelivery.Api.Services.Interfaces
 {
-    public interface IMongoRepository
+    public interface IMongoService
     {
         Task CreateLogAsync(OrderLog log);
         Task<List<OrderLog>> GetLogsByOrderIdAsync(int orderId);
