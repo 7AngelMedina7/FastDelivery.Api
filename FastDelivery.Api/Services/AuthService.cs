@@ -1,6 +1,8 @@
 ﻿using BCrypt.Net;
 using FastDelivery.Api.Data;
 using FastDelivery.Api.DTOs.Auth;
+using FastDelivery.Api.DTOs.User;
+using FastDelivery.Api.Interfaces;
 using FastDelivery.Api.Models;
 using FastDelivery.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
@@ -72,6 +74,22 @@ namespace FastDelivery.Api.Services
                 Email = user.Email,
                 Token = token,
                 Message = "Inicio de Sesión Correcto"
+            };
+        }
+        public async Task<UserDto> ProfileAsync(Guid id)
+        {
+            var user = await _context.Users
+               .Where(x => x.Id == id)
+               .FirstOrDefaultAsync();
+
+            if (user == null)
+                throw new KeyNotFoundException("Usuario no encontrado");
+
+            return new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Name = user.Name,
             };
         }
         private async Task<string> GenerateJwtToken(User user)

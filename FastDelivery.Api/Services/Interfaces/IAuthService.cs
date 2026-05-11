@@ -1,4 +1,5 @@
 ﻿using FastDelivery.Api.DTOs.Auth;
+using FastDelivery.Api.DTOs.User;
 
 namespace FastDelivery.Api.Services.Interfaces
 {
@@ -6,5 +7,7 @@ namespace FastDelivery.Api.Services.Interfaces
     {
         Task<AuthResponseDto> RegisterAsync(RegisterDto dto);
         Task<AuthResponseDto> LoginAsync(LoginDto dto);
+        Task<UserDto> ProfileAsync(Guid id);
+
     }
 }

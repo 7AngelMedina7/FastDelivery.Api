@@ -3,6 +3,7 @@ using FastDelivery.Api.Models;
 using FastDelivery.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace FastDelivery.Api.Controllers
 {
@@ -29,10 +30,21 @@ namespace FastDelivery.Api.Controllers
             return Ok(response);
         }
         [Authorize]
-        [HttpGet("test")]
-        public IActionResult Test()
+        [HttpGet("profile")]
+        public async Task<IActionResult> Profile()
         {
-            return Ok("Authorized");
+            var userIdString = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userIdString == null)
+            {
+                return Unauthorized(new
+                {
+                    message = "Token inválido"
+                });
+            }
+            var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var response = await _authService.ProfileAsync(userId);
+            return Ok(response);
         }
     }
 }
