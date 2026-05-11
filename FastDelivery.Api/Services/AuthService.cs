@@ -45,6 +45,7 @@ namespace FastDelivery.Api.Services
             return new AuthResponseDto
             {
                 Name = user.Name,
+                Email = user.Email,
                 Message = "Usuario creado correctamente"
             };
         }
