@@ -14,7 +14,7 @@ namespace FastDelivery.Api.Controllers
     {
         private readonly IClientService _clientService = clientService;
         [Authorize]
-        [HttpPost("create")]
+        [HttpPost("")]
         public async Task<IActionResult> Create(CreateClientDto dto)
         {
             try

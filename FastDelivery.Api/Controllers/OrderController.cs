@@ -16,7 +16,7 @@ namespace FastDelivery.Api.Controllers
     {
         private readonly IOrdersService _orderService = orderService;
         [Authorize]
-        [HttpPost("create")]
+        [HttpPost("")]
         public async Task<IActionResult> Create(CreateOrderDto dto)
         {
             try
