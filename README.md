@@ -106,6 +106,10 @@ Usa estas credenciales en `POST /api/Auth/login` para obtener el JWT.
 | PATCH  | `/api/Order/{id}/status`      | Cambiar estado de una orden        |
 | GET    | `/api/Order/{id}/history`     | Historial de movimientos de una orden          |
 
+## Colección de Postman
+
+Importar el archivo `FastDelivery.postman_collection.json` en Postman:
+
 En la colección de Postman estaran todos los Endpoints de la aplicación.
 
 ---
