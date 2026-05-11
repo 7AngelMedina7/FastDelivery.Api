@@ -19,9 +19,16 @@ namespace FastDelivery.Api.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(CreateOrderDto dto)
         {
-            var response = await _orderService.CreateOrderAsync(dto);
+            try
+            {
+                var response = await _orderService.CreateOrderAsync(dto);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [Authorize]
         [HttpGet("driver/{id}")]
@@ -58,20 +65,34 @@ namespace FastDelivery.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(UpdateOrderDto dto, int id)
         {
-            var response = await _orderService.UpdateOrder(dto, id);
+            try
+            {
+                var response = await _orderService.UpdateOrder(dto, id);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [Authorize]
         [HttpPatch("{id}/status")]
         public async Task<IActionResult> UpdateStatus( UpdateOrderStatusDto dto, int id)
         {
-            var result = await _orderService.UpdateStatus(dto, id);
+            try
+            {
+                var result = await _orderService.UpdateStatus(dto, id);
 
-            if (result == null)
-                return NotFound();
+                if (result == null)
+                    return NotFound();
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpGet("{id}/history")]
         public async Task<IActionResult> GetOrderHistory(int id)
@@ -87,9 +108,16 @@ namespace FastDelivery.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrder(int id)
         {
-            var response = await _orderService.DeleteOrderAsync(id);
+            try
+            {
+                var response = await _orderService.DeleteOrderAsync(id);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         
     }

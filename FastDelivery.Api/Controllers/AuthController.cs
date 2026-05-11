@@ -17,17 +17,35 @@ namespace FastDelivery.Api.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto dto)
         {
-            var response = await _authService.RegisterAsync(dto);
+            try {
+                var response = await _authService.RegisterAsync(dto);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
         }
 
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var response = await _authService.LoginAsync(dto);
-
-            return Ok(response);
+            try
+            {
+                var response = await _authService.LoginAsync(dto);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
         }
         [Authorize]
         [HttpGet("profile")]
@@ -42,9 +60,18 @@ namespace FastDelivery.Api.Controllers
                 });
             }
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-
-            var response = await _authService.ProfileAsync(userId);
-            return Ok(response);
+            try
+            {
+                var response = await _authService.ProfileAsync(userId);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    message = ex.Message
+                });
+            }
         }
     }
 }

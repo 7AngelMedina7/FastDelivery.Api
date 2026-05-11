@@ -17,9 +17,15 @@ namespace FastDelivery.Api.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(CreateClientDto dto)
         {
-            var response = await _clientService.CreateClientAsync(dto);
-
-            return Ok(response);
+            try
+            {
+                var response = await _clientService.CreateClientAsync(dto);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [Authorize]
         [HttpGet()]
@@ -41,17 +47,30 @@ namespace FastDelivery.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateClient(UpdateClientDto dto,int id)
         {
-            var response = await _clientService.UpdateClientAsync(dto, id);
+            try
+            {
+                var response = await _clientService.UpdateClientAsync(dto, id);
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteClient(int id)
         {
-            var response = await _clientService.DeleteClientAsync(id);
-
-            return Ok(response);
+            try
+            {
+                var response = await _clientService.DeleteClientAsync(id);
+                return Ok(response);
+            }
+             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

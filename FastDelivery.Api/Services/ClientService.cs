@@ -21,21 +21,28 @@ namespace FastDelivery.Api.Services
         //Crear Cliente
         public async Task<ClientResponseDto> CreateClientAsync(CreateClientDto dto)
         {
-            var client = new Client
+            try
             {
-                Name = dto.Name,
-                Address =  dto.Address,
-                Phone = dto.Phone,
-            };
-            _context.Clients.Add(client);
-            await _context.SaveChangesAsync();
-            return new ClientResponseDto
+                var client = new Client
+                {
+                    Name = dto.Name,
+                    Address = dto.Address,
+                    Phone = dto.Phone,
+                };
+                _context.Clients.Add(client);
+                await _context.SaveChangesAsync();
+                return new ClientResponseDto
+                {
+                    Name = client.Name,
+                    Address = client.Address,
+                    Phone = client.Phone,
+                    Message = "Cliente Creado Correctamente"
+                };
+            }
+            catch (Exception ex)
             {
-                Name = client.Name,
-                Address = client.Address,
-                Phone = client.Phone,
-                Message = "Cliente Creado Correctamente"
-            };
+                throw new Exception($"Error al crear el cliente: {ex.Message}");
+            }
         }
         //Obtener Clientes con sus ordenes
         public async Task<List<ClientWithOrdersDto>> GetAllClientsAsync()
@@ -83,38 +90,52 @@ namespace FastDelivery.Api.Services
         //Editar Cliente
         public async Task<ClientResponseDto?> UpdateClientAsync(UpdateClientDto dto, int id)
         {
-            var client = await _context.Clients.FindAsync(id);
-
-            if (client == null)
-                return null;
-
-            client.Name = dto.Name;
-            client.Address = dto.Address;
-            client.Phone = dto.Phone;
-
-            await _context.SaveChangesAsync();
-
-            return new ClientResponseDto
+            try
             {
-                Id = client.Id,
-                Name = client.Name,
-                Address = client.Address,
-                Phone = client.Phone,
-                Message = "Cliente Actualizado Correctamente"
-            };
+                var client = await _context.Clients.FindAsync(id);
+
+                if (client == null)
+                    return null;
+
+                client.Name = dto.Name;
+                client.Address = dto.Address;
+                client.Phone = dto.Phone;
+
+                await _context.SaveChangesAsync();
+
+                return new ClientResponseDto
+                {
+                    Id = client.Id,
+                    Name = client.Name,
+                    Address = client.Address,
+                    Phone = client.Phone,
+                    Message = "Cliente Actualizado Correctamente"
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al actualizar el cliente: {ex.Message}");
+            }
         }
         //Eliminar Cliente
         public async Task<bool> DeleteClientAsync(int id)
         {
-            var client = await _context.Clients.FindAsync(id);
+            try
+            {
+                var client = await _context.Clients.FindAsync(id);
 
-            if (client == null)
-                return false;
+                if (client == null)
+                    return false;
 
-            _context.Clients.Remove(client);
-            await _context.SaveChangesAsync();
+                _context.Clients.Remove(client);
+                await _context.SaveChangesAsync();
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error al eliminar el cliente: {ex.Message}");
+            }
         }
     }
 }

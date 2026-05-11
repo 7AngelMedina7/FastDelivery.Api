@@ -129,9 +129,14 @@ namespace FastDelivery.Api.Services
                 .FirstOrDefaultAsync(o => o.Id == id);
             var driver = await _context.Users.FindAsync(dto.DriverId);
 
-            if (order == null || driver == null)
-                return null;
-    
+            if ( driver == null)
+            {
+                throw new Exception("El Repartidor No Existe");
+            }
+            if (order == null)
+            {
+                throw new Exception("La Orden No Existe");
+            }
             order.Status = dto.Status;
             order.DriverId = dto.DriverId;
 
@@ -167,7 +172,9 @@ namespace FastDelivery.Api.Services
                    .Include(o => o.Driver)
                    .FirstOrDefaultAsync(o => o.Id == id);
             if (order == null)
-                return null;
+            {
+                throw new Exception("La Orden No Existe");
+            }
             string previousStatus = order.Status;
             order.Status = dto.Status;
 
@@ -236,15 +243,22 @@ namespace FastDelivery.Api.Services
         //Eliminar Orden
         public async Task<bool> DeleteOrderAsync(int id)
         {
-            var order = await _context.Orders.FindAsync(id);
+            try
+            {
+                var order = await _context.Orders.FindAsync(id);
 
-            if (order == null)
-                return false;
+                if (order == null)
+                    return false;
 
-            _context.Orders.Remove(order);
-            await _context.SaveChangesAsync();
+                _context.Orders.Remove(order);
+                await _context.SaveChangesAsync();
 
-            return true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al Eliminar la Orden");
+            }
         }
     }
 }
